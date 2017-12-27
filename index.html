@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JS DJ Board</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+
+  <div class="keys">
+    <div data-key="65" class="key">
+      <kbd>A</kbd>
+      <span class="sound">Ahem</span>
+    </div>
+    <div data-key="83" class="key">
+      <kbd>S</kbd>
+      <span class="sound">Gasp</span>
+    </div>
+    <div data-key="68" class="key">
+      <kbd>D</kbd>
+      <span class="sound">Clapping</span>
+    </div>
+    <div data-key="70" class="key">
+      <kbd>F</kbd>
+      <span class="sound">Boo</span>
+    </div>
+    <div data-key="71" class="key">
+      <kbd>G</kbd>
+      <span class="sound">Bell Ding</span>
+    </div>
+    <div data-key="72" class="key">
+      <kbd>H</kbd>
+      <span class="sound">Car Horn</span>
+    </div>
+    <div data-key="74" class="key">
+      <kbd>J</kbd>
+      <span class="sound">Cheers</span>
+    </div>
+    <div data-key="75" class="key">
+      <kbd>K</kbd>
+      <span class="sound">Laugh</span>
+    </div>
+    <div data-key="76" class="key">
+      <kbd>L</kbd>
+      <span class="sound">Scream</span>
+    </div>
+  </div>
+
+  <audio data-key="65" src="sounds/ahem_x.wav"></audio>
+  <audio data-key="83" src="sounds/gasp_x.wav"></audio>
+  <audio data-key="68" src="sounds/applause3.wav"></audio>
+  <audio data-key="70" src="sounds/boo.wav"></audio>
+  <audio data-key="71" src="sounds/boxing_bell.wav"></audio>
+  <audio data-key="72" src="sounds/car_horn_x.wav"></audio>
+  <audio data-key="74" src="sounds/cheering.wav"></audio>
+  <audio data-key="75" src="sounds/laugh_x.wav"></audio>
+  <audio data-key="76" src="sounds/scream_x.wav"></audio>
+
+<script>
+function playSound(e){
+const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+if(!audio) return; //stops function if no audio assigned
+audio.currentTime= 0; //always you to override current audio
+audio.play();
+key.classList.add("playing");
+}
+
+function removeTransition(e){
+if (e.propertyName !== 'transform') return; //skip if it's not a transform
+this.classList.remove('playing');
+}
+
+const keys = document.querySelectorAll(".key"); 
+keys.forEach(key=> key.addEventListener('transitionend', removeTransition));
+window.addEventListener('keydown', playSound);
+</script>
+
+
+</body>
+</html>
